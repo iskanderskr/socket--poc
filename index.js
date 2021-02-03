@@ -5,7 +5,7 @@ const wss = new WebSocket.Server({ port: PORT })
 
 wss.on('connection', ws => {
     console.log('Um conexão iniciada')
-    wss.on('message', message => {
+    ws.on('message', message => {
         const obj = JSON.parse(message)
         console.log(message)
         if(obj.type ==  'ura'){
