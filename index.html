@@ -12,22 +12,14 @@
         </button>
     </div>
     <script>
-        var exampleSocket = new WebSocket('ws://localhost:5000')
-        console.log(exampleSocket)
+        var socket = new WebSocket('ws://socket-poc-porto.herokuapp.com/')
 
-        exampleSocket.onopen = function (event) {
+        socket.onopen = function (event) {
             console.log('Abriu a conexão')
         }
 
-        exampleSocket.onmessage = function (event) {
-            const obj = JSON.parse(event.data)
-            if(obj.type == 'sf'){
-                console.log(obj)
-            }
-        }
-
         function enviar() {
-            exampleSocket.send(JSON.stringify({
+            socket.send(JSON.stringify({
                 type: 'ura',
                 message: 'vindo da ura',
                 cpf: '111.111.111-22'

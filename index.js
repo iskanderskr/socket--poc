@@ -9,11 +9,11 @@ wss.on('connection', ws => {
 
     ws.on('message', message => {
         const obj = JSON.parse(message)
+        console.log(message)
         if(obj.type ==  'ura'){
-            console.log('é ura')
             ws.send(JSON.stringify({
                 type: 'sf',
-                obj: 'indo pro salesforce',
+                name: obj.name,
                 cpf: obj.cpf
             }))
         }
