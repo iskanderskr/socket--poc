@@ -1,24 +1,21 @@
-const app = require('express')();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const WebSocket = require('ws')
+const app = require('express')()
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
+const wss = new WebSocket.Server({ port: PORT })
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+wss.on('connection', ws => {
+    console.log('Um conexão iniciada')
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
-
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
-    });
-});
-
-http.listen(PORT, () => {
-    console.log('listening on *:3000');
-}); 
+    ws.on('message', message => {
+        const obj = JSON.parse(message)
+        if(obj.type ==  'ura'){
+            console.log('é ura')
+            ws.send(JSON.stringify({
+                type: 'sf',
+                obj: 'indo pro salesforce',
+                cpf: obj.cpf
+            }))
+        }
+    })
+})
